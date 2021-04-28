@@ -161,6 +161,15 @@ export default function Listing() {
 
                     {!item.count ? (
                       <button
+                        disabled={!item.inStock}
+                        style={
+                          !item.inStock
+                            ? {
+                                cursor: "not-allowed",
+                                backgroundColor: "#6f6eaf"
+                              }
+                            : {}
+                        }
                         className="btn btn-primary"
                         onClick={() => {
                           let temp = items.map((el) =>
