@@ -1,3 +1,5 @@
+import { initialState } from "../Components/ProductListing";
+
 export const productsReducer = (state, { type, value }) => {
   switch (type) {
     case "SORT_BY":
@@ -9,6 +11,8 @@ export const productsReducer = (state, { type, value }) => {
       };
     case "TOGGLE_DELIVERY":
       return { ...state, showFastDeliveryOnly: !state.showFastDeliveryOnly };
+    case "CLEAR":
+      return { ...state, ...initialState };
     default:
       return state;
   }

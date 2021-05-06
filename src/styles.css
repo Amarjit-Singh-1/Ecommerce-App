@@ -29,6 +29,7 @@ body {
   --primary-color: #302eb1;
   --secondary-color: #4d4d5e;
 }
+
 /* Navigation */
 .navigation-bar {
   display: flex;

@@ -3,19 +3,19 @@ import { productsReducer } from "../Reducers/productsReducer";
 import { useReducer } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../cart-context";
-
+import { addToCart, addToWishlist } from "../apiCall";
+export const initialState = {
+  showInventoryAll: true,
+  showFastDeliveryOnly: false,
+  sortBy: null
+};
+//Memory Leak
 export default function Listing() {
   const { items, setItems } = useCart();
-  // console.log(items);
   const [
     { showInventoryAll, showFastDeliveryOnly, sortBy },
     dispatch
-  ] = useReducer(productsReducer, {
-    showInventoryAll: true,
-    showFastDeliveryOnly: false,
-    sortBy: null
-  });
-
+  ] = useReducer(productsReducer, initialState);
   function getSortedData(productList, sortBy) {
     if (sortBy && sortBy === "PRICE_HIGH_TO_LOW") {
       return productList.sort((a, b) => b["price"] - a["price"]);
@@ -26,7 +26,6 @@ export default function Listing() {
     }
     return productList;
   }
-
   function getFilteredData(
     productList,
     { showFastDeliveryOnly, showInventoryAll }
@@ -37,6 +36,14 @@ export default function Listing() {
       )
       .filter(({ inStock }) => (showInventoryAll ? true : inStock));
   }
+  const handleAddToCart = async (id) => {
+    const res = await addToCart(id);
+    setItems(res.data);
+  };
+  const handleAddToWishlist = async (id) => {
+    const res = await addToWishlist(id);
+    setItems(res.data);
+  };
 
   const sortedData = getSortedData(items, sortBy);
   const filteredData = getFilteredData(sortedData, {
@@ -82,7 +89,12 @@ export default function Listing() {
                   />
                   <label htmlFor="sort2">Price Low to High</label>
                 </p>
-                {/* <button className="btn">Clear</button> */}
+                <button
+                  className="btn"
+                  onClick={() => dispatch({ type: "CLEAR" })}
+                >
+                  Clear
+                </button>
               </fieldset>
             </div>
           </div>
@@ -94,6 +106,7 @@ export default function Listing() {
                 <legend className="card-title">Filter</legend>
                 <p className="card-text">
                   <input
+                    id="outofstock"
                     name="outofstock"
                     type="checkbox"
                     checked={showInventoryAll}
@@ -102,6 +115,7 @@ export default function Listing() {
                   <label htmlFor="outofstock">Include Out of Stock</label>
                   <br />
                   <input
+                    id="fastdelivery"
                     checked={showFastDeliveryOnly}
                     name="fastdelivery"
                     type="checkbox"
@@ -128,14 +142,16 @@ export default function Listing() {
                     <img src={item.image} alt="randomimage" />
                     <button
                       className={btn_class}
+                      // onClick={() => {
+                      //   let temp = items.map((el) =>
+                      //     el.id === item.id
+                      //       ? { ...el, wishlist: !el.wishlist }
+                      //       : el
+                      //   );
+                      //   setItems(temp);
+                      // }}
                       onClick={() => {
-                        let temp = items.map((el) =>
-                          el.id === item.id
-                            ? { ...el, wishlist: !el.wishlist }
-                            : el
-                        );
-                        console.log();
-                        setItems(temp);
+                        handleAddToWishlist(item.id);
                       }}
                     >
                       <i className="material-icons-outlined md-36">
@@ -151,7 +167,9 @@ export default function Listing() {
                     {item.inStock ? (
                       <div>In Stock</div>
                     ) : (
-                      <div>Out Of Stock</div>
+                      <div>
+                        <strong>Out Of Stock</strong>
+                      </div>
                     )}
                     {item.fastDelivery ? (
                       <div>Fast Delivery</div>
@@ -172,12 +190,13 @@ export default function Listing() {
                         }
                         className="btn btn-primary"
                         onClick={() => {
-                          let temp = items.map((el) =>
-                            el.id === item.id
-                              ? { ...el, count: el.count + 1 }
-                              : el
-                          );
-                          setItems(temp);
+                          handleAddToCart(item.id);
+                          // let temp = items.map((el) =>
+                          //   el.id === item.id
+                          //     ? { ...el, count: el.count + 1 }
+                          //     : el
+                          // );
+                          // setItems(temp);
                         }}
                       >
                         Add to Cart

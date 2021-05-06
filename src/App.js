@@ -13,7 +13,7 @@ export default function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<Listing />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="wishlist" element={<WishList />} />
         </Routes>
       </div>

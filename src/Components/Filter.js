@@ -41,8 +41,8 @@ export default function Filter({ dispatch, sortBy }) {
             <fieldset>
               <legend className="card-title">Filter</legend>
               <p className="card-text">
-                <input type="checkbox" />
-                <label>Include Out of Stock</label>
+                <input type="checkbox" id="ioos" />
+                <label htmlFor="ioos">Include Out of Stock</label>
                 <br />
                 <input type="checkbox" />
                 <label>Fast Delivery</label>

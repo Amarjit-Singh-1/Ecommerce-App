@@ -1,26 +1,30 @@
-import { createContext, useContext, useState } from "react";
-import faker from "faker";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+// import faker from "faker";
+import { getProducts } from "./apiCall";
 
 export const CartContext = createContext();
 
-const products = [...Array(25)].map((item) => ({
-  id: faker.random.uuid(),
-  name: faker.commerce.productName(),
-  image: faker.random.image(),
-  price: faker.commerce.price(),
-  count: 0,
-  wishlist: false,
-  inStock: faker.random.boolean(),
-  fastDelivery: faker.random.boolean(),
-  ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),
-  offer: faker.random.arrayElement(["50% Off", "Cashback upto 500", "70% Off"])
-}));
-
 export function CartProvider({ children }) {
-  const [items, setItems] = useState(products);
-  const setInitialItems = () => setItems(products);
+  const [items, setItems] = useState([]);
+  const isMounted = useRef(false);
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+  //
+  const getProductsData = async () => {
+    if (isMounted.current) {
+      const res = await getProducts();
+      setItems(res.data);
+    }
+  };
+  useEffect(() => getProductsData(), []);
+  //
+
   return (
-    <CartContext.Provider value={{ items, setItems, setInitialItems }}>
+    <CartContext.Provider value={{ items, setItems }}>
       {children}
     </CartContext.Provider>
   );
