@@ -1,27 +1,32 @@
 import "../styles.css";
-import { removeFromWishlist } from "../apiCall";
 import { useCart } from "../cart-context";
 
-export default function WishItem({ item, moveToCart }) {
-  const { setItems } = useCart();
-  const handleRemoveFromWishlist = async (id) => {
-    const res = await removeFromWishlist(id);
-    if (typeof res.data === "object" && res.data.length) {
-      setItems(res.data);
-    }
+export default function WishItem({ item }) {
+  const { state, dispatch } = useCart();
+  const product = state.products.find((el) => el.id === item);
+  const moveToCart = () => {
+    dispatch({ type: "ADD_TO_CART", payload: { id: item } });
+    dispatch({ type: "REMOVE_FROM_WISHLIST", payload: { id: item } });
   };
-  console.log();
   return (
     <li className="cards-item">
       <div className="card">
-        <img src={item.image} alt="randomimage" />
+        <img src={product.image} alt="randomimage" />
         <div className="card-content">
-          <h2 className="card-title">{item.name}</h2>
-          <p className="card-text">Rs. {item.price}</p>
+          <h2 className="card-title">{product.name}</h2>
+          <p className="card-text">Rs. {product.price}</p>
           <button
             className="btn btn-primary"
-            // onClick={() => moveToCart(item.id)}
-            onClick={() => handleRemoveFromWishlist(item.id)}
+            style={
+              !product.inStock
+                ? {
+                    cursor: "not-allowed",
+                    backgroundColor: "#6f6eaf"
+                  }
+                : {}
+            }
+            onClick={() => moveToCart()}
+            disabled={!product.inStock}
           >
             Move to Cart
           </button>

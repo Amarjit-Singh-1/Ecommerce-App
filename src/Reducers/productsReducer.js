@@ -1,6 +1,6 @@
-import { initialState } from "../Components/ProductListing";
+import { initialState } from "../Components/helper";
 
-export const productsReducer = (state, { type, value }) => {
+export function productsReducer(state, { type, value }) {
   switch (type) {
     case "SORT_BY":
       return { ...state, sortBy: value };
@@ -16,4 +16,4 @@ export const productsReducer = (state, { type, value }) => {
     default:
       return state;
   }
-};
+}

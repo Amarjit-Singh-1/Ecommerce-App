@@ -3,217 +3,50 @@ import { productsReducer } from "../Reducers/productsReducer";
 import { useReducer } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../cart-context";
-import { addToCart, addToWishlist } from "../apiCall";
-export const initialState = {
-  showInventoryAll: true,
-  showFastDeliveryOnly: false,
-  sortBy: null
-};
-//Memory Leak
+import { Filter } from "./Filter";
+import { addToCart, addToWishlist, removeFromWishlist } from "../apiCalls";
+import { getFilteredData, getSortedData, initialState } from "./helper";
+
 export default function Listing() {
-  const { items, setItems } = useCart();
+  const { state } = useCart();
   const [
     { showInventoryAll, showFastDeliveryOnly, sortBy },
-    dispatch
+    dispatchProducts
   ] = useReducer(productsReducer, initialState);
-  function getSortedData(productList, sortBy) {
-    if (sortBy && sortBy === "PRICE_HIGH_TO_LOW") {
-      return productList.sort((a, b) => b["price"] - a["price"]);
-    }
 
-    if (sortBy && sortBy === "PRICE_LOW_TO_HIGH") {
-      return productList.sort((a, b) => a["price"] - b["price"]);
-    }
-    return productList;
-  }
-  function getFilteredData(
-    productList,
-    { showFastDeliveryOnly, showInventoryAll }
-  ) {
-    return productList
-      .filter(({ fastDelivery }) =>
-        showFastDeliveryOnly ? fastDelivery : true
-      )
-      .filter(({ inStock }) => (showInventoryAll ? true : inStock));
-  }
-  const handleAddToCart = async (id) => {
-    const res = await addToCart(id);
-    setItems(res.data);
-  };
-  const handleAddToWishlist = async (id) => {
-    const res = await addToWishlist(id);
-    setItems(res.data);
-  };
-
-  const sortedData = getSortedData(items, sortBy);
+  const sortedData = getSortedData(state.products, sortBy);
   const filteredData = getFilteredData(sortedData, {
     showFastDeliveryOnly,
     showInventoryAll
   });
-  // setItems(filteredData);
+  if (state.loader.home) {
+    return "Loading home screen";
+  }
   return (
     <div className="home">
-      {/* <Filter dispatch={dispatch} sortBy={sortBy} /> */}
-      <div className="functions">
-        <div className="filter-cards-item">
-          <div className="filter-card">
-            <div className="card-content">
-              <fieldset>
-                <legend className="card-title">Sort By</legend>
-                <p className="card-text">
-                  <input
-                    id="sort1"
-                    type="radio"
-                    name="sort"
-                    checked={sortBy && sortBy === "PRICE_HIGH_TO_LOW"}
-                    onChange={() =>
-                      dispatch({
-                        type: "SORT_BY",
-                        value: "PRICE_HIGH_TO_LOW"
-                      })
-                    }
-                  />
-                  <label htmlFor="sort1">Price High to Low</label>
-                  <br />
-                  <input
-                    id="sort2"
-                    type="radio"
-                    name="sort"
-                    checked={sortBy && sortBy === "PRICE_LOW_TO_HIGH"}
-                    onChange={() =>
-                      dispatch({
-                        type: "SORT_BY",
-                        value: "PRICE_LOW_TO_HIGH"
-                      })
-                    }
-                  />
-                  <label htmlFor="sort2">Price Low to High</label>
-                </p>
-                <button
-                  className="btn"
-                  onClick={() => dispatch({ type: "CLEAR" })}
-                >
-                  Clear
-                </button>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-        <div className="filter-cards-item">
-          <div className="filter-card">
-            <div className="card-content">
-              <fieldset>
-                <legend className="card-title">Filter</legend>
-                <p className="card-text">
-                  <input
-                    id="outofstock"
-                    name="outofstock"
-                    type="checkbox"
-                    checked={showInventoryAll}
-                    onChange={() => dispatch({ type: "TOGGLE_INVENTORY" })}
-                  />
-                  <label htmlFor="outofstock">Include Out of Stock</label>
-                  <br />
-                  <input
-                    id="fastdelivery"
-                    checked={showFastDeliveryOnly}
-                    name="fastdelivery"
-                    type="checkbox"
-                    onChange={() => dispatch({ type: "TOGGLE_DELIVERY" })}
-                  />
-                  <label htmlFor="fastdelivery">Fast Delivery</label>
-                </p>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Filter
+        dispatchProducts={dispatchProducts}
+        sortBy={sortBy}
+        showFastDeliveryOnly={showFastDeliveryOnly}
+        showInventoryAll={showInventoryAll}
+      />
       <div className="something">
         <h1>Our Products</h1>
         <ul className="cards">
           {filteredData.map((item) => {
-            // console.log(item.count);
-            let btn_class = item.wishlist ? "icon-btn-red" : "icon-btn";
-            let btn_type = item.wishlist ? "favorite" : "favorite_border";
+            let cartcondn = state.cart.find((el) => el.id === item.id);
+            let condn = state.wishlist.includes(item.id);
+            let btn_class = condn ? "icon-btn-red" : "icon-btn";
+            let btn_type = condn ? "favorite" : "favorite_border";
             return (
-              <li className="cards-item" key={item.id}>
-                <div className="card">
-                  <>
-                    <img src={item.image} alt="randomimage" />
-                    <button
-                      className={btn_class}
-                      // onClick={() => {
-                      //   let temp = items.map((el) =>
-                      //     el.id === item.id
-                      //       ? { ...el, wishlist: !el.wishlist }
-                      //       : el
-                      //   );
-                      //   setItems(temp);
-                      // }}
-                      onClick={() => {
-                        handleAddToWishlist(item.id);
-                      }}
-                    >
-                      <i className="material-icons-outlined md-36">
-                        {btn_type}
-                      </i>
-                    </button>
-                  </>
-                  <div className="card-content">
-                    <h2 className="card-title">{item.name}</h2>
-                    <div className="card-text">
-                      Price in Rs: <strong>{item.price}</strong>
-                    </div>
-                    {item.inStock ? (
-                      <div>In Stock</div>
-                    ) : (
-                      <div>
-                        <strong>Out Of Stock</strong>
-                      </div>
-                    )}
-                    {item.fastDelivery ? (
-                      <div>Fast Delivery</div>
-                    ) : (
-                      <div>3 Days Minimum</div>
-                    )}
-
-                    {!item.count ? (
-                      <button
-                        disabled={!item.inStock}
-                        style={
-                          !item.inStock
-                            ? {
-                                cursor: "not-allowed",
-                                backgroundColor: "#6f6eaf"
-                              }
-                            : {}
-                        }
-                        className="btn btn-primary"
-                        onClick={() => {
-                          handleAddToCart(item.id);
-                          // let temp = items.map((el) =>
-                          //   el.id === item.id
-                          //     ? { ...el, count: el.count + 1 }
-                          //     : el
-                          // );
-                          // setItems(temp);
-                        }}
-                      >
-                        Add to Cart
-                      </button>
-                    ) : (
-                      <div>
-                        <Link
-                          to="cart"
-                          style={{ color: "inherit", textDecoration: "none" }}
-                        >
-                          <button className="btn btn-link">Go to Cart</button>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </li>
+              <Product
+                key={item.id}
+                item={item}
+                condn={condn}
+                cartcondn={cartcondn}
+                btn_class={btn_class}
+                btn_type={btn_type}
+              />
             );
           })}
         </ul>
@@ -221,3 +54,80 @@ export default function Listing() {
     </div>
   );
 }
+
+const Product = ({ item, condn, cartcondn, btn_class, btn_type }) => {
+  const { dispatch } = useCart();
+
+  const handleWishlist = async (condn, id) => {
+    if (condn) {
+      const res = await removeFromWishlist(id);
+      dispatch({ type: "REMOVE_FROM_WISHLIST", payload: { id: res?.data } });
+    } else {
+      const res = await addToWishlist(id);
+      dispatch({ type: "ADD_TO_WISHLIST", payload: { id: res?.data } });
+    }
+  };
+  const handleAddToCart = async (id) => {
+    const res = await addToCart(id);
+    dispatch({ type: "ADD_TO_CART", payload: { id: res?.data } });
+  };
+  return (
+    <li className="cards-item" key={item.id}>
+      <div className="card">
+        <>
+          <img src={item.image} alt="randomimage" />
+          <button
+            className={btn_class}
+            onClick={() => handleWishlist(condn, item.id)}
+          >
+            <i className="material-icons-outlined md-36">{btn_type}</i>
+          </button>
+        </>
+        <div className="card-content">
+          <h2 className="card-title">{item.name}</h2>
+          <div className="card-text">
+            Price in Rs: <strong>{item.price}</strong>
+          </div>
+          {item.inStock ? (
+            <div>In Stock</div>
+          ) : (
+            <div>
+              <strong>Out Of Stock</strong>
+            </div>
+          )}
+          {item.fastDelivery ? (
+            <div>Fast Delivery</div>
+          ) : (
+            <div>3 Days Minimum</div>
+          )}
+          {!cartcondn ? (
+            <button
+              disabled={!item.inStock}
+              style={
+                !item.inStock
+                  ? {
+                      cursor: "not-allowed",
+                      backgroundColor: "#6f6eaf"
+                    }
+                  : {}
+              }
+              className="btn btn-primary"
+              onClick={() => handleAddToCart(item.id)}
+            >
+              Add to Cart
+            </button>
+          ) : (
+            <div>
+              <Link
+                to="cart"
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                <button className="btn btn-link">Go to Cart</button>
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </li>
+  );
+};
