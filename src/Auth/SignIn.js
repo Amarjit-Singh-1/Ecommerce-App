@@ -7,8 +7,10 @@ import "../styles.css";
 export function SignIn() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogging, setIsLogging] = useState(false);
   const { dispatch } = useCart();
   const handleSubmit = async (e) => {
+    setIsLogging(true);
     try {
       e.preventDefault();
       const res = await axios.post(
@@ -18,7 +20,9 @@ export function SignIn() {
           password
         }
       );
-      console.log(res);
+      setIsLogging(false);
+      setUserName("");
+      setPassword("");
       if (res.data.user.username) {
         const { _id, username } = res.data.user;
         dispatch({
@@ -30,6 +34,7 @@ export function SignIn() {
       }
     } catch (error) {
       console.log(error);
+      setIsLogging(false);
     }
   };
   return (
@@ -48,10 +53,10 @@ export function SignIn() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <span>
-        Don't have an account <Link to="/signup">create account</Link>
+        Don't have an account? <Link to="/signup">Create account</Link>
       </span>
       <button className="form-btn" type="submit">
-        Login
+        {isLogging ? "Logging you in..." : "Login"}
       </button>
     </form>
   );

@@ -1,9 +1,8 @@
 import "../styles.css";
 import WishItem from "./wishItem";
 import { useCart } from "../cart-context";
-
 export default function WishList() {
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
 
   return (
     <>

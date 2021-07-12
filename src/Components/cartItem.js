@@ -10,14 +10,20 @@ export default function CartItem({ item }) {
   //   const a = await axios.post("");
   //   dispatch({ type: "ADD_TO_CART", payload: { id: a[1] } });
   // }
-  const handleAddToCart = async (id) => {
-    const res = await updateCart(id);
-    console.log(res);
-    dispatch({ type: "ADD_TO_CART", payload: { id: res?.data } });
+  // const handleAddToCart = async (id) => {
+  //   const res = await updateCart(id);
+  //   console.log(res);
+  //   dispatch({ type: "ADD_TO_CART", payload: { id: res?.data } });
+  // };
+  const handleAddToCart = (id) => {
+    dispatch({ type: "ADD_TO_CART", payload: { id } });
   };
-  const handleRemoveFromCart = async (id) => {
-    const res = await removeFromCart(id);
-    dispatch({ type: "REMOVE_FROM_CART", payload: { id: res?.data } });
+  // const handleRemoveFromCart = async (id) => {
+  //   const res = await removeFromCart(id);
+  //   dispatch({ type: "REMOVE_FROM_CART", payload: { id: res?.data } });
+  // };
+  const handleRemoveFromCart = (id) => {
+    dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
   };
   return (
     <li className="cards-item">
@@ -44,10 +50,6 @@ export default function CartItem({ item }) {
               <button
                 className="btn btn-secondary"
                 onClick={() => {
-                  // dispatch({
-                  //   type: "REMOVE_FROM_CART",
-                  //   payload: { id: item.id }
-                  // });
                   handleRemoveFromCart(product.id);
                 }}
               >
@@ -56,17 +58,13 @@ export default function CartItem({ item }) {
             ) : (
               <button
                 className="btn btn-secondary"
-                onClick={() => {
-                  dispatch({
-                    type: "REMOVE_FROM_CART",
-                    payload: { id: item.id }
-                  });
-                }}
-                //   let temp = items.map((el) =>
-                //     el.id === item.id ? { ...el, count: el.count - 1 } : el
-                //   );
-                //   setItems(temp);
-                // }}
+                onClick={
+                  () => handleRemoveFromCart(product.id)
+                  // dispatch({
+                  //   type: "REMOVE_FROM_CART",
+                  //   payload: { id: item.id }
+                  // });
+                }
               >
                 <span className="material-icons-outlined">remove</span>
               </button>

@@ -58,18 +58,28 @@ export default function Listing() {
 const Product = ({ item, condn, cartcondn, btn_class, btn_type }) => {
   const { dispatch } = useCart();
 
-  const handleWishlist = async (condn, id) => {
+  // const handleWishlist = async (condn, id) => {
+  //   if (condn) {
+  //     const res = await removeFromWishlist(id);
+  //     dispatch({ type: "REMOVE_FROM_WISHLIST", payload: { id: res?.data } });
+  //   } else {
+  //     const res = await addToWishlist(id);
+  //     dispatch({ type: "ADD_TO_WISHLIST", payload: { id: res?.data } });
+  //   }
+  // };
+  const handleWishlist = (condn, id) => {
     if (condn) {
-      const res = await removeFromWishlist(id);
-      dispatch({ type: "REMOVE_FROM_WISHLIST", payload: { id: res?.data } });
+      dispatch({ type: "REMOVE_FROM_WISHLIST", payload: { id } });
     } else {
-      const res = await addToWishlist(id);
-      dispatch({ type: "ADD_TO_WISHLIST", payload: { id: res?.data } });
+      dispatch({ type: "ADD_TO_WISHLIST", payload: { id } });
     }
   };
-  const handleAddToCart = async (id) => {
-    const res = await addToCart(id);
-    dispatch({ type: "ADD_TO_CART", payload: { id: res?.data } });
+  // const handleAddToCart = async (id) => {
+  //   const res = await addToCart(id);
+  //   dispatch({ type: "ADD_TO_CART", payload: { id: res?.data } });
+  // };
+  const handleAddToCart = (id) => {
+    dispatch({ type: "ADD_TO_CART", payload: { id } });
   };
   return (
     <li className="cards-item" key={item.id}>

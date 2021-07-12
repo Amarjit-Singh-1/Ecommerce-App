@@ -10,7 +10,7 @@ export const getProducts = async () => {
 };
 
 export const getCart = async () => {
-  const res = await axios.get(`${url}/cart`);
+  const res = await axios.get(`${url}/products`);
   if (res.status === 200) {
     return res;
   }
