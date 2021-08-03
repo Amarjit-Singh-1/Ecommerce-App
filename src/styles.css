@@ -5,7 +5,6 @@
 .App {
   font-family: "B612", sans-serif;
   text-align: center;
-  /* background: #ddd; */
 }
 body {
   margin: 0px;
@@ -15,16 +14,6 @@ body {
   margin-top: 8rem;
 }
 
-/* img {
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
-} */
-
-/* .main{
-  max-width: 1200px;
-  margin: 0 auto;
-} */
 :root {
   --primary-color: #302eb1;
   --secondary-color: #4d4d5e;
@@ -62,14 +51,11 @@ body {
 
 .navigation-bar-logo {
   color: white;
-  /* width: 5rem;
-  height: 4rem; */
 }
 
 .navigation-bar-links a {
   font-weight: 500;
   color: #edf0f1;
-  /* color: var(--primary-color); */
   text-decoration: none;
 }
 
@@ -94,9 +80,6 @@ body {
 
 .icon-btn-badge {
   position: relative;
-  /* margin: 1rem; */
-  /* display: flex;
-  align-items: center; */
   color: #333333;
   background: transparent;
   width: 50px;
@@ -144,7 +127,6 @@ body {
   background-color: white;
   border-radius: 0.25rem;
   position: relative;
-  /* box-shadow: 0 20px 30px 0px rgba(0, 0, 0, 0.5); */
   box-shadow: 0 10px 16px 0px rgb(0 0 0 / 50%);
   display: flex;
   flex-direction: column;
@@ -153,14 +135,12 @@ body {
 
 .material-icons-outlined.md-36 {
   font-size: 36px;
-  /*   color:red; */
 }
 
 .icon-btn-red {
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;
-  /*   font-size: 30rem; */
   border: none;
   border-radius: 50%;
   outline: none;
@@ -172,11 +152,9 @@ body {
   position: absolute;
   right: 0.5rem;
   top: 0.5rem;
-  /*   font-size: 30rem; */
   border: none;
   border-radius: 50%;
   outline: none;
-  /* color: red; */
   background: snow;
   cursor: pointer;
 }
@@ -196,16 +174,12 @@ body {
   font-size: 1.4rem;
   font-weight: 500;
   text-align: center;
-  /*   letter-spacing: 1px; */
-  /*   text-transform: capitalize; */
   margin: 0px;
   margin-bottom: 10px;
 }
 
 .card-text {
   font-size: 1rem;
-  /*   line-height: 1.5; */
-  /* margin-bottom: 1.25rem; */
   font-weight: 500;
 }
 .card-btn {
@@ -228,22 +202,11 @@ body {
   overflow: hidden;
 }
 .btn {
-  /* padding: 15px 30px; */
-  /* padding: 1rem 2rem; */
   cursor: pointer;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  /* font-size: 14px; */
 }
-/* .btn:hover {
-  background-color: white;
-  color: #302eb1;
-} */
-
-/* .product-btn {
-  justify-content: flex-end;
-} */
 
 .btn-primary {
   background-color: var(--primary-color);
@@ -258,7 +221,6 @@ body {
   background-color: var(--secondary-color);
   padding: 0.2rem 1rem;
   border: none;
-  /* border-radius: 50%; */
   color: white;
   font-size: 2rem;
   margin: 0 1rem;
@@ -293,26 +255,18 @@ body {
 
 .home {
   display: flex;
-  /* flex-wrap: wrap; */
 }
 
 .something {
   flex-grow: 1;
-  /* position: absolute;
-  overflow: auto;
-  z-index: 1; */
 }
 
 .functions {
   flex-grow: 5;
   margin-top: -1.3rem;
   background: #ddd;
-  /* position: fixed; */
-  /* z-index: 1; */
   top: 0;
   left: 0;
-  /* background-color: #111; */
-  /* overflow-x: hidden; */
 }
 
 .color-white {
@@ -320,6 +274,7 @@ body {
   justify-content: center;
   align-items: center;
   color: #fff;
+  cursor: pointer;
 }
 /* Form */
 .input {
@@ -370,7 +325,6 @@ body {
   background-color: white;
   border-radius: 0.25rem;
   position: relative;
-  /* box-shadow: 0 20px 30px 0px rgba(0, 0, 0, 0.5); */
   box-shadow: 0 10px 16px 0px rgb(0 0 0 / 50%);
   display: flex;
   flex-direction: column;
@@ -388,7 +342,6 @@ body {
 .Signup,
 .Signin {
   box-sizing: border-box;
-  /* background-color: #484d60; */
   background-color: #dcdcdc;
   width: max-content;
   padding: 1rem 4.5rem;

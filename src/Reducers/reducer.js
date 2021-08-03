@@ -36,9 +36,7 @@ export function reducer(state, { type, payload }) {
         localStorage.setItem("JWT", JSON.stringify(newState));
         return newState;
       }
-      console.log(newState.cart[idx].quantity); // = newState.cart[idx].quantity + 1; //incrementing
       newState.cart[idx].quantity--; //decrementing
-      console.log(newState.cart[idx].quantity); // = newState.cart[idx].quantity + 1; //incrementing
       localStorage.setItem("JWT", JSON.stringify(newState));
       return newState;
     }

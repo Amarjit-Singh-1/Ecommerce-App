@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import "../styles.css";
 
 export function SignIn() {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUserName] = useState("test");
+  const [password, setPassword] = useState("test123");
   const [isLogging, setIsLogging] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { dispatch } = useCart();
@@ -56,13 +56,13 @@ export function SignIn() {
           <input
             className="input"
             type={showPassword ? "text" : "password"}
-            password={password}
+            value={password}
             placeholder="Enter Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <span
-            class="material-icons-outlined"
+            className="material-icons-outlined"
             onClick={togglePasswordVisibility}
           >
             {showPassword ? "visibility" : "visibility_off"}
