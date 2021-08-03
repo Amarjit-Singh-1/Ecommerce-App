@@ -11,13 +11,7 @@ export default function WishList() {
           <h2>Total Items in WishList : {state.wishlist.length} </h2>
           <ul className="cards">
             {state.wishlist.map((item) => (
-              <WishItem
-                item={item}
-                key={item}
-                // moveToCart={() =>
-                //   dispatch({ type: "ADD_TO_CART", payload: { id: item.id } })
-                // }
-              />
+              <WishItem item={item} key={item} />
             ))}
           </ul>
         </div>

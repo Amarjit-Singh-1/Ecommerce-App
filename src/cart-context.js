@@ -18,25 +18,31 @@ export const CartContext = createContext();
 //   offer: faker.random.arrayElement(["50% Off", "Cashback upto 500", "70% Off"])
 // }));
 
-const INITIALSTATE = {
+export const INITIALSTATE = {
   products: [],
-  cart: [], //{id}
+  cart: [],
   wishlist: [],
   user: {},
   loader: {
-    home: false, //homeStatus: "error" || "loaded" || "loading"
+    home: false,
     cart: false,
     wishlist: false
   }
 };
 
 export function CartProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, INITIALSTATE);
+  const prevData = localStorage.getItem("JWT");
+  const InitialState = prevData ? JSON.parse(prevData) : INITIALSTATE;
+  const [state, dispatch] = useReducer(reducer, InitialState);
   async function fetchProductsData() {
     dispatch({ type: "TOGGLE_HOME_LOADING", payload: {} });
     const res = await getProducts();
     console.log({ res });
-    dispatch({ type: "SET_INITIAL", payload: { data: res?.data } });
+    const data = res?.data.map((item) => {
+      const temp = { ...item, id: item._id };
+      return temp;
+    });
+    dispatch({ type: "SET_INITIAL", payload: { data: data } });
     dispatch({ type: "TOGGLE_HOME_LOADING", payload: {} });
   }
   useEffect(() => {

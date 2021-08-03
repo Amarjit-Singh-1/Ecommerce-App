@@ -1,27 +1,12 @@
 import "../styles.css";
 import { useCart } from "../cart-context";
-import axios from "axios";
-import { updateCart, removeFromCart } from "../apiCalls";
 
 export default function CartItem({ item }) {
   const { state, dispatch } = useCart();
   const product = state.products.find((el) => el.id === item.id);
-  // async function callApi() {
-  //   const a = await axios.post("");
-  //   dispatch({ type: "ADD_TO_CART", payload: { id: a[1] } });
-  // }
-  // const handleAddToCart = async (id) => {
-  //   const res = await updateCart(id);
-  //   console.log(res);
-  //   dispatch({ type: "ADD_TO_CART", payload: { id: res?.data } });
-  // };
   const handleAddToCart = (id) => {
     dispatch({ type: "ADD_TO_CART", payload: { id } });
   };
-  // const handleRemoveFromCart = async (id) => {
-  //   const res = await removeFromCart(id);
-  //   dispatch({ type: "REMOVE_FROM_CART", payload: { id: res?.data } });
-  // };
   const handleRemoveFromCart = (id) => {
     dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
   };

@@ -4,7 +4,7 @@ import { useReducer } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../cart-context";
 import { Filter } from "./Filter";
-import { addToCart, addToWishlist, removeFromWishlist } from "../apiCalls";
+import Loader from "react-loader-spinner";
 import { getFilteredData, getSortedData, initialState } from "./helper";
 
 export default function Listing() {
@@ -20,7 +20,18 @@ export default function Listing() {
     showInventoryAll
   });
   if (state.loader.home) {
-    return "Loading home screen";
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)"
+        }}
+      >
+        <Loader type="Puff" color="#00BFFF" height={80} width={80} />;
+      </div>
+    );
   }
   return (
     <div className="home">

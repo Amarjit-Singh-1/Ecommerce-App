@@ -1,9 +1,10 @@
 import "../styles.css";
 import CartItem from "./cartItem";
+import { Link } from "react-router-dom";
 import { useCart } from "../cart-context";
 
 export default function Cart() {
-  const { state, dispatch } = useCart();
+  const { state } = useCart();
   const findPrice = (id) => {
     const product = state.products.find((item) => item.id === id);
     return product.price;
@@ -18,6 +19,9 @@ export default function Cart() {
         <div>
           <h2>Total Items in Cart : {state.cart.length}</h2>
           <h3>Total Price : Rs. {total}</h3>
+          <Link to="/checkout">
+            <button className="btn btn-link">Checkout</button>
+          </Link>
           <ul className="cards">
             {state.cart.map((item) => (
               <CartItem item={item} key={item.id} /*removeItem={removeItem}*/ />

@@ -1,7 +1,7 @@
 import "./styles.css";
 import Navbar from "./Components/Navbar";
 import { Routes, Route } from "react-router-dom";
-
+import { Checkout } from "./Components/Checkout";
 import Cart from "./Components/Cart";
 import Listing from "./Components/ProductListing";
 import WishList from "./Components/WishList";
@@ -16,6 +16,7 @@ import { SignUp } from "./Auth/SignUp";
 export default function App() {
   let navigate = useNavigate();
   const { state } = useCart();
+  console.log(state)
   useEffect(() => {
     if (state.user.username) {
       navigate("/");
@@ -46,6 +47,12 @@ export default function App() {
             redirectPath="/signin"
             path="/edit"
             element={<Edit />}
+          />
+          <PrivateRoute
+            condition={state.user.username}
+            redirectPath="/signin"
+            path="/checkout"
+            element={<Checkout />}
           />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />

@@ -2,11 +2,12 @@ import axios from "axios";
 
 const url = "https://Ecommerce-1.amarjitsingh2.repl.co";
 export const getProducts = async () => {
-  const res = await axios.get(`${url}/products`);
+  const res = await axios.get(
+    `https://Ecommerce-2.amarjitsingh2.repl.co/api/v1/products`
+  );
   if (res.status === 200) {
     return res;
   }
-  // yeh sahi hai kya
 };
 
 export const getCart = async () => {
@@ -57,5 +58,3 @@ export const removeFromWishlist = async (id) => {
     return res;
   }
 };
-
-/// Hangho raha hai bohot

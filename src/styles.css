@@ -28,6 +28,21 @@ body {
 :root {
   --primary-color: #302eb1;
   --secondary-color: #4d4d5e;
+  --color-1: #ee1111;
+  --font-1: 1rem;
+}
+
+.heading {
+  font-size: 2rem;
+  margin: 0.4rem;
+}
+
+.font-1 {
+  font-size: var(--color-1);
+}
+
+.color-1 {
+  color: var(--color-1);
 }
 
 /* Navigation */
@@ -258,6 +273,19 @@ body {
   margin-top: 0.8rem;
 }
 
+.disabled-btn {
+  background-color: #6f6eaf;
+  padding: 0.5rem 1rem;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  margin-top: 0.8rem;
+}
+
+.disabled-btn:hover {
+  cursor: not-allowed;
+}
+
 .filter {
   background-color: #000;
   color: #fff;
@@ -295,12 +323,12 @@ body {
 }
 /* Form */
 .input {
-  /* width: ; */
+  width: 12rem;
   border: 2px solid #aaa;
   border-radius: 4px;
   margin: 8px 0;
   outline: none;
-  padding: 8px;
+  padding: 10px;
   box-sizing: border-box;
   transition: 0.5s;
 }
@@ -324,4 +352,49 @@ body {
   color: white;
   font-size: 1rem;
   margin-top: 0.8rem;
+}
+
+.password {
+  display: flex;
+  position: relative;
+}
+
+.password span {
+  position: absolute;
+  top: 25%;
+  left: 85%;
+  cursor: pointer;
+}
+
+.checkout-card {
+  background-color: white;
+  border-radius: 0.25rem;
+  position: relative;
+  /* box-shadow: 0 20px 30px 0px rgba(0, 0, 0, 0.5); */
+  box-shadow: 0 10px 16px 0px rgb(0 0 0 / 50%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.signin-container,
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  width: max-content;
+  margin: 0 auto;
+}
+.Signup,
+.Signin {
+  box-sizing: border-box;
+  /* background-color: #484d60; */
+  background-color: #dcdcdc;
+  width: max-content;
+  padding: 1rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 3rem 0px;
+  border-radius: 0.2rem;
 }
